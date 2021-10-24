@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1024小游戏</title>
+    <style>
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .play {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 295px;
+            height: 375px;
+            border-radius: 10px;
+            background-color: red;
+            z-index: 3;
+            transform: translate(-50%, -50%);
+        }
+
+        .score {
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .content {
+            height: 255px;
+        }
+
+        .content li {
+            display: block;
+            height: 70px;
+            margin: 0 10px 5px;
+        }
+
+        .content li span {
+            float: left;
+            width: 65px;
+            height: 70px;
+            font-size: 20px;
+            margin-right: 5px;
+            line-height: 70px;
+            text-align: center;
+            background-color: aqua;
+        }
+
+        .content li span:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>ul
+
+<body>
+    <img class="img" src="./background.jpeg" alt="背景">
+    <div class="play">
+        <div class="score">100</div>
+        <ul class="content">
+            <li>
+                <span>4</span>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+            </li>
+            <li>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+            </li>
+            <li>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+            </li>
+            <li>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+                <span>2</span>
+            </li>
+        </ul>
+        <div class="operate">
+            <button class="restart">重新开始</button>
+            <button class="start">开始游戏</button>
+        </div>
+    </div>
+    <script src="./jquery-3.1.1.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
