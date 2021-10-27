@@ -7,7 +7,7 @@ const COLUMNSIZE = 4;   // 行数
 let totalOperate = 0;   // 操作总数，用于测试是否结束
 
 // 随机生成新元素
-function randomNewOne() {
+function randomNewOne(rows) {
     let emptys = [];
     for (let i = 0; i < ROWSIZE; i++) {
         for (let j = 0; j < COLUMNSIZE; j++) {
@@ -22,6 +22,7 @@ function randomNewOne() {
 
 // 向左合并
 function mergeLeft(rows) {
+    let score = 0;
     let operate = 0;
     for (let i = 0; i < ROWSIZE; i++) {
         let last;
@@ -33,6 +34,7 @@ function mergeLeft(rows) {
                 rows[i][curNow] = last;
                 rows[i][j] = 0;
                 operate++;
+                score += last;
             } else {
                 if (curNow === j) {
                     last = rows[i][curNow];
@@ -55,15 +57,16 @@ function mergeLeft(rows) {
             }
         }
     }
-    updateInterFace();
     if (operate !== 0) {
-        randomNewOne();
+        randomNewOne(rows);
+        totalOperate += operate;
     }
-    updateInterFace();
+    return score;
 }
 
 // 向右合并
 function mergeRight(rows) {
+    let score = 0;
     let operate = 0;
     for (let i = 0; i < ROWSIZE; i++) {
         let last;
@@ -75,6 +78,7 @@ function mergeRight(rows) {
                 rows[i][curNow] = last;
                 rows[i][j] = 0;
                 operate++;
+                score += last;
             } else {
                 if (curNow === j) {
                     last = rows[i][curNow];
@@ -97,15 +101,16 @@ function mergeRight(rows) {
             }
         }
     }
-    updateInterFace();
     if (operate !== 0) {
-        randomNewOne();
+        randomNewOne(rows);
+        totalOperate += operate;
     }
-    updateInterFace();
+    return score;
 }
 
 // 向上合并
 function mergeTop(rows) {
+    let score = 0;
     let operate = 0;
     for (let j = 0; j < COLUMNSIZE; j++) {
         let last;
@@ -117,6 +122,7 @@ function mergeTop(rows) {
                 rows[curNow][j] = last;
                 rows[i][j] = 0;
                 operate++;
+                score += last;
             } else {
                 if (curNow === i) {
                     last = rows[curNow][j];
@@ -139,15 +145,16 @@ function mergeTop(rows) {
             }
         }
     }
-    updateInterFace();
     if (operate !== 0) {
-        randomNewOne();
+        randomNewOne(rows);
+        totalOperate += operate;
     }
-    updateInterFace();
+    return score;
 }
 
 // 向下合并
 function mergeBottom(rows) {
+    let score = 0;
     let operate = 0;
     for (let j = 0; j < COLUMNSIZE; j++) {
         let last;
@@ -159,6 +166,7 @@ function mergeBottom(rows) {
                 rows[curNow][j] = last;
                 rows[i][j] = 0;
                 operate++;
+                score += last;
             } else {
                 if (curNow === i) {
                     last = rows[curNow][j];
@@ -181,26 +189,39 @@ function mergeBottom(rows) {
             }
         }
     }
-    updateInterFace();
     if (operate !== 0) {
-        randomNewOne();
+        randomNewOne(rows);
+        totalOperate += operate;
     }
-    updateInterFace();
+    return score;
 }
 
 // 键盘点击事件
 function keyDown(e) {
     if (e.keyCode === 38) {
-        mergeTop(rows);
+        curScore += mergeTop(rows);
+        $(".score").text("当前分数：" + curScore);
+        updateInterFace();
+        isFinished();
     } else if (e.keyCode === 40) {
-        mergeBottom(rows);
+        curScore += mergeBottom(rows);
+        $(".score").text("当前分数：" + curScore);
+        updateInterFace();
+        isFinished();
     } else if (e.keyCode === 37) {
-        mergeLeft(rows);
+        curScore += mergeLeft(rows);
+        $(".score").text("当前分数：" + curScore);
+        updateInterFace();
+        isFinished();
     } else if (e.keyCode === 39) {
-        mergeRight(rows);
+        curScore += mergeRight(rows);
+        $(".score").text("当前分数：" + curScore);
+        updateInterFace();
+        isFinished();
     }
 }
 
+// 更新页面
 function updateInterFace() {
     let ul = $(".content");
     for (let i = 0; i < ROWSIZE; i++) {
@@ -214,17 +235,48 @@ function updateInterFace() {
     }
 }
 
+// 判断是否游戏能继续下去
+function isFinished() {
+    let tmp = [];
+    for (let i = 0; i < ROWSIZE; i++) {
+        tmp[i] = [];
+        for (let j = 0; j < COLUMNSIZE; j++) {
+            tmp[i][j] = rows[i][j];
+        }
+    }
+    totalOperate = 0;
+    mergeLeft(tmp);
+    if (totalOperate) { return; }
+    mergeRight(tmp);
+    if (totalOperate) { return; }
+    mergeTop(tmp);
+    if (totalOperate) { return; }
+    mergeBottom(tmp);
+    if (totalOperate) { return; }
+    document.removeEventListener("keydown", keyDown);
+    alert("最终得分为：" + curScore);
+}
+
+// 开始游戏
 function startGame() {
+    curScore = 0;
+    $(".score").text("当前分数：" + curScore);
     rows =
         [[0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]];
 
-    randomNewOne();
-    randomNewOne();
+    randomNewOne(rows);
+    randomNewOne(rows);
     updateInterFace();
     document.addEventListener("keydown", keyDown);
 }
 
+// 重新开始游戏
+function reStart() {
+    alert("似乎是个假按钮捏");
+}
+
+document.querySelector(".restart").addEventListener("click", reStart);
 document.querySelector(".start").addEventListener("click", startGame);
