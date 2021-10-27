@@ -28,21 +28,22 @@
             top: 50%;
             left: 50%;
             width: 295px;
-            height: 375px;
+            height: 385px;
             border-radius: 10px;
-            background-color: red;
+            background-color: rgba(255, 255, 255, .6);
             z-index: 3;
             transform: translate(-50%, -50%);
         }
 
         .score {
-            height: 30px;
+            height: 40px;
             text-align: center;
-            line-height: 30px;
+            line-height: 40px;
+            font-size: 18px;
         }
 
         .content {
-            height: 255px;
+            height: 295px;
         }
 
         .content li {
@@ -59,43 +60,58 @@
             margin-right: 5px;
             line-height: 70px;
             text-align: center;
-            background-color: aqua;
+            background-color: rgb(240, 206, 83);
         }
 
         .content li span:last-child {
             margin-right: 0;
         }
+
+        .operate {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 50px;
+        }
+
+        .operate button {
+            width: 80px;
+            height: 35px;
+            background-color: #fff;
+            border: 1px solid #111;
+            border-radius: 3px;
+        }
     </style>
-</head>ul
+</head>
 
 <body>
     <img class="img" src="./background.jpeg" alt="背景">
     <div class="play">
-        <div class="score">100</div>
+        <div class="score">当前分数：100</div>
         <ul class="content">
             <li>
-                <span>4</span>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </li>
             <li>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </li>
             <li>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </li>
             <li>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
-                <span>2</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
             </li>
         </ul>
         <div class="operate">
