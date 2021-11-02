@@ -1,7 +1,7 @@
 let rows = [];
 
 let curScore = 0;   // 当前分数
-let newNums = [2, 4, 8];    // 自动产生的新数字
+let newNums = [2, 4];    // 自动产生的新数字
 const ROWSIZE = 4;  // 列数
 const COLUMNSIZE = 4;   // 行数
 let totalOperate = 0;   // 操作总数，用于测试是否结束
