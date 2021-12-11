@@ -7,11 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1024小游戏</title>
     <style>
+        div {
+            box-sizing: border-box;
+        }
+
         ul,
         li {
             margin: 0;
             padding: 0;
             list-style: none;
+            box-sizing: border-box;
         }
 
         .img {
@@ -29,6 +34,7 @@
             left: 50%;
             width: 295px;
             height: 385px;
+            padding: 0 10px;
             border-radius: 10px;
             background-color: rgba(255, 255, 255, .6);
             z-index: 3;
@@ -43,16 +49,17 @@
         }
 
         .content {
+            position: relative;
             height: 295px;
         }
 
-        .content li {
+        .content ul {
             display: block;
             height: 70px;
-            margin: 0 10px 5px;
+            margin-bottom: 5px;
         }
 
-        .content li span {
+        .content ul li {
             float: left;
             width: 65px;
             height: 70px;
@@ -63,8 +70,17 @@
             background-color: rgb(240, 206, 83);
         }
 
-        .content li span:last-child {
+        .content ul li:last-child {
             margin-right: 0;
+        }
+
+        .content span {
+            position: absolute;
+            width: 65px;
+            height: 70px;
+            color: rgba(0, 0, 0, .6);
+            line-height: 70px;
+            text-align: center;
         }
 
         .operate {
@@ -80,6 +96,7 @@
             background-color: #fff;
             border: 1px solid #111;
             border-radius: 3px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -88,32 +105,32 @@
     <img class="img" src="./background.jpeg" alt="背景">
     <div class="play">
         <div class="score">当前分数：0</div>
-        <ul class="content">
-            <li>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+        <div class="content">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
             </li>
-            <li>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </li>
-            <li>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </li>
-            <li>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </li>
-        </ul>
+        </div>
         <div class="operate">
             <button class="restart">重新开始</button>
             <button class="start">开始游戏</button>

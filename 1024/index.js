@@ -235,7 +235,7 @@ function updateInterFace() {
     }
 }
 
-// 判断是否游戏能继续下去
+// 判断是否游戏可以继续
 function isFinished() {
     let tmp = [];
     for (let i = 0; i < ROWSIZE; i++) {
