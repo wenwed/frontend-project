@@ -323,7 +323,6 @@ function random_one() {
     }
     const randomIndex = Math.floor(Math.random() * emptys.length);
     emptys[randomIndex].value = newNums[Math.floor(Math.random() * newNums.length)];
-    console.log(emptys[randomIndex].index);
     return emptys[randomIndex];
 }
 
@@ -500,15 +499,16 @@ function move_node(Obj, target) {
 
 // 添加未合并节点dom，为动画做准备
 function add_node_dom(Obj, target) {
+    if ($("#span".concat(target.index)).length === 0) {
+        const spanDom = $("<span></span>");
+        spanDom.text("");
+        spanDom.attr("id", "span".concat(target.index));
+        spanDom.css("left", target.yIndex * (SPANWIDTH + SPANRIGHT));
+        spanDom.css("top", target.xIndex * (SPANHEIGHT + SPANTOP));
+        $(".play .content").append(spanDom);
+    }
     target.value = Obj.value;
     Obj.value = 0;
-
-    const spanDom = $("<span></span>");
-    spanDom.text("");
-    spanDom.attr("id", "span".concat(target.index));
-    spanDom.css("left", target.yIndex * (SPANWIDTH + SPANRIGHT));
-    spanDom.css("top", target.xIndex * (SPANHEIGHT + SPANTOP));
-    $(".play .content").append(spanDom);
 
     move_anime(Obj, target);
 }
@@ -518,32 +518,34 @@ function move_anime(Obj, target) {
     const moveX = target.yIndex * (SPANWIDTH + SPANRIGHT);
     const moveY = target.xIndex * (SPANHEIGHT + SPANTOP);
     const objDom = document.getElementById("span".concat(Obj.index));
+    // 修改dom的id防止后面的动画获取到这个本该删除的dom
+    objDom.setAttribute("id", Obj.index + "-" + target.index);
     const targetDom = document.getElementById("span".concat(target.index));
     if (Obj.yIndex !== target.yIndex) {
         const step = (target.yIndex - Obj.yIndex) > 0 ? 5 : -5;
+        const targetVal = target.value;
         clearInterval(objDom.timer);
         objDom.timer = setInterval(function() {
             if (objDom.offsetLeft !== moveX) {
                 objDom.style.left = objDom.offsetLeft + step + "px";
-            }
-            if (objDom.offsetLeft === moveX) {
-                clearInterval(objDom.timer);
+            } else {
+                targetDom.innerText = targetVal;
                 objDom.remove();
-                targetDom.innerHTML = target.value;
+                clearInterval(objDom.timer);
             }
         }, 1);
     }
     if (Obj.xIndex !== target.xIndex) {
         const step = (target.xIndex - Obj.xIndex) > 0 ? 5 : -5;
+        const targetVal = target.value;
         clearInterval(objDom.timer);
         objDom.timer = setInterval(function() {
             if (objDom.offsetTop !== moveY) {
                 objDom.style.top = objDom.offsetTop + step + "px";
-            }
-            if (objDom.offsetTop === moveY) {
-                clearInterval(objDom.timer);
+            } else {
+                targetDom.innerText = targetVal;
                 objDom.remove();
-                targetDom.innerHTML = target.value;
+                clearInterval(objDom.timer);
             }
         }, 1);
     }
