@@ -41,29 +41,48 @@ function add_node_when_init(nodeObj) {
     $(".play .content").append(spanDom);
 }
 
+// 游戏进行时向页面添加新元素
+function add_node_when_gaming(nodeObj) {
+    let curSize = 0;
+    const spanDom = document.createElement("span");
+    spanDom.innerHTML = nodeObj.value;
+    spanDom.setAttribute("id", "span".concat(nodeObj.index));
+    spanDom.style.left = nodeObj.yIndex * (SPANWIDTH + SPANRIGHT) + "px";
+    spanDom.style.top = nodeObj.xIndex * (SPANHEIGHT + SPANTOP) + "px";
+    spanDom.style.transform = "scale(".concat(curSize, ", ", curSize, ")");
+    $(".play .content").append(spanDom);
+
+    const step = 0.1;
+    clearInterval(spanDom.appearTimer);
+    spanDom.appearTimer = setInterval(function() {
+        if (curSize !== 1) {
+            curSize = (curSize * 10 + step * 10) / 10;
+            spanDom.style.transform = "scale(".concat(curSize, ", ", curSize, ")");
+        } else {
+            clearInterval(spanDom.appearTimer);
+        }
+    }, 10);
+}
+
 // 键盘点击事件
 function key_down(e) {
     // debugger
     if (e.keyCode === 38) { // 向上合并
         merge_top(rows);
         $(".score").text("当前分数：" + curScore);
-        // update_inter_face();
-        // is_finished();
+        is_finished();
     } else if (e.keyCode === 40) { // 向下合并
         merge_bottom(rows);
         $(".score").text("当前分数：" + curScore);
-        // update_inter_face();
-        // is_finished();
+        is_finished();
     } else if (e.keyCode === 37) { // 向左合并
         merge_left(rows);
         $(".score").text("当前分数：" + curScore);
-        // update_inter_face();
-        // is_finished();
+        is_finished();
     } else if (e.keyCode === 39) { // 向右合并
         merge_right(rows);
         $(".score").text("当前分数：" + curScore);
-        // update_inter_face();
-        // is_finished();
+        is_finished();
     }
 }
 
@@ -78,7 +97,7 @@ function merge_left() {
         operate += margin_stack(arr, "left");
     }
     if (operate !== 0) {
-        add_node_when_init(random_one());
+        add_node_when_gaming(random_one());
     }
 }
 
@@ -93,7 +112,7 @@ function merge_right() {
         operate += margin_stack(arr, "right");
     }
     if (operate !== 0) {
-        add_node_when_init(random_one());
+        add_node_when_gaming(random_one());
     }
 }
 
@@ -108,7 +127,7 @@ function merge_top() {
         operate += margin_stack(arr, "top");
     }
     if (operate !== 0) {
-        add_node_when_init(random_one());
+        add_node_when_gaming(random_one());
     }
 }
 
@@ -123,7 +142,7 @@ function merge_bottom() {
         operate += margin_stack(arr, "bottom");
     }
     if (operate !== 0) {
-        add_node_when_init(random_one());
+        add_node_when_gaming(random_one());
     }
 }
 
@@ -258,24 +277,63 @@ function move_anime(Obj, target) {
 
 // 判断是否游戏可以继续
 function is_finished() {
-    let tmp = [];
     for (let i = 0; i < ROWSIZE; i++) {
-        tmp[i] = [];
+        const arr = [];
         for (let j = 0; j < COLUMNSIZE; j++) {
-            tmp[i][j] = rows[i][j];
+            if (rows[i][j].value === 0) { return; }
+            arr.push(rows[i][j]);
+        }
+        if (could_margin(arr)) { return; }
+    }
+
+    for (let i = 0; i < ROWSIZE; i++) {
+        const arr = [];
+        for (let j = COLUMNSIZE - 1; j >= 0; j--) {
+            if (rows[i][j].value === 0) { return; }
+            arr.push(rows[i][j]);
+        }
+        if (could_margin(arr)) { return; }
+    }
+
+    for (let j = 0; j < COLUMNSIZE; j++) {
+        const arr = [];
+        for (let i = 0; i < ROWSIZE; i++) {
+            if (rows[i][j].value === 0) { return; }
+            arr.push(rows[i][j]);
+        }
+        if (could_margin(arr)) { return; }
+    }
+
+    for (let j = 0; j < COLUMNSIZE; j++) {
+        const arr = [];
+        for (let i = ROWSIZE - 1; i >= 0; i--) {
+            if (rows[i][j].value === 0) { return; }
+            arr.push(rows[i][j]);
+        }
+        if (could_margin(arr)) { return; }
+    }
+
+    document.removeEventListener("keydown", key_down);
+    alert("最终得分为：" + curScore);
+}
+
+//  模拟合并各个项
+function could_margin(arr) {
+    const stack = [];
+    for (let i = 0; i < arr.length; i++) {
+        if (stack.length !== 0) {
+            const last = stack[stack.length - 1];
+            // 两个值相同
+            if (last.value === arr[i].value) {
+                return true;
+            } else { // 两个值不相等
+                stack.push(arr[i]);
+            }
+        } else {
+            stack.push(arr[i]);
         }
     }
-    totalOperate = 0;
-    merge_left(tmp);
-    if (totalOperate) { return; }
-    merge_right(tmp);
-    if (totalOperate) { return; }
-    merge_top(tmp);
-    if (totalOperate) { return; }
-    merge_bottom(tmp);
-    if (totalOperate) { return; }
-    document.removeEventListener("key_down", key_down);
-    alert("最终得分为：" + curScore);
+    return false;
 }
 
 // 开始游戏
@@ -291,6 +349,7 @@ function start_game() {
                 yIndex: j,
                 value: 0
             }
+            $("#span".concat(rows[i][j].index)).remove();
         }
     }
     add_node_when_init(random_one());

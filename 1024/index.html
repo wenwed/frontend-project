@@ -10,7 +10,7 @@
         div {
             box-sizing: border-box;
         }
-
+        
         ul,
         li {
             margin: 0;
@@ -18,7 +18,7 @@
             list-style: none;
             box-sizing: border-box;
         }
-
+        
         .img {
             position: fixed;
             top: 0;
@@ -27,7 +27,7 @@
             height: 100%;
             z-index: 2;
         }
-
+        
         .play {
             position: fixed;
             top: 50%;
@@ -40,25 +40,25 @@
             z-index: 3;
             transform: translate(-50%, -50%);
         }
-
+        
         .score {
             height: 40px;
             text-align: center;
             line-height: 40px;
             font-size: 18px;
         }
-
+        
         .content {
             position: relative;
             height: 295px;
         }
-
+        
         .content ul {
             display: block;
             height: 70px;
             margin-bottom: 5px;
         }
-
+        
         .content ul li {
             float: left;
             width: 65px;
@@ -69,11 +69,11 @@
             text-align: center;
             background-color: rgb(240, 206, 83);
         }
-
+        
         .content ul li:last-child {
             margin-right: 0;
         }
-
+        
         .content span {
             position: absolute;
             width: 65px;
@@ -81,15 +81,24 @@
             color: rgba(0, 0, 0, .6);
             line-height: 70px;
             text-align: center;
+            /* animation: appearAnime 0.5s 1; */
         }
-
+        /* @keyframes appearAnime {
+            from {
+                transform: scale(0, 0);
+            }
+            to {
+                transform: scale(1, 1);
+            }
+        } */
+        
         .operate {
             display: flex;
             justify-content: space-around;
             align-items: center;
             height: 50px;
         }
-
+        
         .operate button {
             width: 80px;
             height: 35px;
@@ -129,7 +138,7 @@
                 <li></li>
                 <li></li>
                 <li></li>
-            </li>
+                </li>
         </div>
         <div class="operate">
             <button class="restart">重新开始</button>
